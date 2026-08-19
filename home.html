@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="hero">
+    <div class="hero-shapes"><span></span><span></span><span></span></div>
+    <h1>ARIRANG</h1>
+    <p class="subtitle">BTS &middot; 10th Studio Album &middot; Released March 20, 2026</p>
+    <p>Fourteen tracks about identity, distance, reunion, and coming home — named after the
+       centuries-old Korean folk song that shares its title.</p>
+    <a href="{{ url_for('shop') }}" class="btn">Shop Merch</a>
+    <a href="{{ url_for('about') }}" class="btn btn-outline">Read More</a>
+</div>
+
+<h2>Listen</h2>
+<p class="listen-hint">Tap any track below to play just that song.</p>
+<div class="spotify-embed">
+    <iframe
+        id="spotify-player"
+        style="border-radius:12px"
+        src="https://open.spotify.com/embed/album/3ukkRHDHbN8tNRPKsGZR1h?utm_source=generator&theme=0"
+        width="100%"
+        height="352"
+        frameborder="0"
+        allowfullscreen=""
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy">
+    </iframe>
+</div>
+
+<h2>Tracklist</h2>
+<ol class="tracklist">
+    {% for track in tracks %}
+    <li class="{{ 'title-track' if track.is_title_track else '' }} clickable-track"
+        onclick="playTrack('{{ track.spotify_id }}')">
+        {{ track.title }}
+        {% if track.is_title_track %}<span class="tag">Title Track</span>{% endif %}
+    </li>
+    {% endfor %}
+</ol>
+
+<script>
+function playTrack(spotifyId) {
+    const player = document.getElementById('spotify-player');
+    player.src = `https://open.spotify.com/embed/track/${spotifyId}?utm_source=generator&theme=0&autoplay=1`;
+    player.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+</script>
+
+{% endblock %}

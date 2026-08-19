@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="confirmation-box">
+    <div class="checkmark">&#10003;</div>
+    <h2 class="no-border">Order Placed!</h2>
+    <p>Thank you, {{ order.full_name }}. Your order has been received.</p>
+
+    <div class="order-details">
+        <p><strong>Order #:</strong> {{ order.id }}</p>
+        <p><strong>Shipping to:</strong> {{ order.address }}, {{ order.city }} {{ order.postal_code }}</p>
+        <p><strong>Total:</strong> ${{ '%.2f'|format(order.total) }}</p>
+    </div>
+
+    <table class="cart-table">
+        {% for item in order.items %}
+        <tr>
+            <td>{{ item.product_name }} &times; {{ item.quantity }}</td>
+            <td>${{ '%.2f'|format(item.price * item.quantity) }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="{{ url_for('shop') }}" class="btn">Continue Shopping</a>
+    <a href="{{ url_for('orders') }}" class="btn btn-outline">View My Orders</a>
+</div>
+
+{% endblock %}

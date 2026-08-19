@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>My Orders</h2>
+
+{% if orders %}
+    {% for order in orders %}
+    <div class="order-card">
+        <div class="order-card-header">
+            <span>Order #{{ order.id }}</span>
+            <span>{{ order.created_at.strftime('%d %b %Y') }}</span>
+        </div>
+        <p>{{ order.address }}, {{ order.city }} {{ order.postal_code }}</p>
+        <ul class="order-items">
+            {% for item in order.items %}
+            <li>{{ item.product_name }} &times; {{ item.quantity }} — ${{ '%.2f'|format(item.price * item.quantity) }}</li>
+            {% endfor %}
+        </ul>
+        <p class="order-total">Total: ${{ '%.2f'|format(order.total) }}</p>
+    </div>
+    {% endfor %}
+{% else %}
+    <p>You haven't placed any orders yet. <a href="{{ url_for('shop') }}">Go to shop</a>.</p>
+{% endif %}
+
+{% endblock %}

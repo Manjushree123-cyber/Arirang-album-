@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Checkout</h2>
+
+<div class="checkout-grid">
+
+    <div class="checkout-summary">
+        <h3>Order Summary</h3>
+        <table class="cart-table">
+            {% for item in items %}
+            <tr>
+                <td>{{ item.product.emoji }} {{ item.product.name }} &times; {{ item.quantity }}</td>
+                <td>${{ '%.2f'|format(item.product.price * item.quantity) }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <h3 class="checkout-total">Total: ${{ '%.2f'|format(total) }}</h3>
+    </div>
+
+    <div class="checkout-form">
+        <h3>Shipping Details</h3>
+        <form method="POST">
+            <label>Full Name</label>
+            <input type="text" name="full_name" required>
+
+            <label>Address</label>
+            <input type="text" name="address" required>
+
+            <label>City</label>
+            <input type="text" name="city" required>
+
+            <label>Postal Code</label>
+            <input type="text" name="postal_code" required>
+
+            <button type="submit" class="btn">Place Order</button>
+        </form>
+        <p class="note">This is a demo checkout — no real payment is processed.</p>
+    </div>
+
+</div>
+
+{% endblock %}

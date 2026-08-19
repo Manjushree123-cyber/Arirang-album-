@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Your Cart</h2>
+
+{% if items %}
+<table class="cart-table">
+    <tr>
+        <th>Item</th>
+        <th>Price</th>
+        <th>Qty</th>
+        <th>Subtotal</th>
+        <th></th>
+    </tr>
+    {% for item in items %}
+    <tr>
+        <td>{{ item.product.emoji }} {{ item.product.name }}</td>
+        <td>${{ '%.2f'|format(item.product.price) }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>${{ '%.2f'|format(item.product.price * item.quantity) }}</td>
+        <td><a href="{{ url_for('remove_from_cart', item_id=item.id) }}" class="remove-link">Remove</a></td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h3>Total: ${{ '%.2f'|format(total) }}</h3>
+<a href="{{ url_for('checkout') }}" class="btn">Checkout</a>
+
+{% else %}
+<p>Your cart is empty. <a href="{{ url_for('shop') }}">Go to shop</a>.</p>
+{% endif %}
+
+{% endblock %}
